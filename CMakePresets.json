@@ -1,0 +1,294 @@
+﻿{
+	"version": 4,
+	"cmakeMinimumRequired": {
+		"major": 3,
+		"minor": 22,
+		"patch": 0
+	},
+	"configurePresets": [
+		{
+			"name": "base",
+			"hidden": true,
+			"generator": "Ninja",
+			"architecture": {
+				"value": "x64",
+				"strategy": "external"
+			},
+			"binaryDir": "${sourceDir}/build/${presetName}",
+			"installDir": "${sourceDir}/install/${presetName}",
+			"cacheVariables": {
+				"CMAKE_EXPORT_COMPILE_COMMANDS": true
+			}
+		},
+		{
+			"name": "windows",
+			"inherits": "base",
+			"hidden": true,
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Windows"
+			}
+		},
+		{
+			"name": "unix-like",
+			"hidden": true,
+			"inherits": "base",
+			"condition": {
+				"type": "inList",
+				"string": "${hostSystemName}",
+				"list": [
+					"Linux",
+					"Darwin"
+				]
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
+					"sourceDir": "$env{HOME}/.vs/",
+					"copySourcesOptions": {
+						"exclusionList": [
+							".vs",
+							".git",
+							".cache",
+							"out",
+							"build",
+							"predictor"
+						]
+					}
+				}
+			}
+		},
+		{
+			"name": "debug",
+			"hidden": true,
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug",
+				"CMAKE_MESSAGE_LOG_LEVEL": "VERBOSE"
+			}
+		},
+		{
+			"name": "release",
+			"hidden": true,
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release",
+				"CMAKE_MESSAGE_LOG_LEVEL": "STATUS",
+				"WARNINGS_AS_ERRORS": true
+			}
+		},
+		{
+			"name": "cmake-debug",
+			"hidden": true,
+			"debug": {
+				"output": true,
+				"find": true
+			}
+		},
+		{
+			"name": "asan",
+			"hidden": true,
+			"cacheVariables": {
+				"ENABLE_SANITIZER_ADDRESS": true
+			}
+		},
+		{
+			"name": "leaksan",
+			"hidden": true,
+			"cacheVariables": {
+				"ENABLE_SANITIZER_LEAK": true
+			}
+		},
+		{
+			"name": "memsan",
+			"hidden": true,
+			"cacheVariables": {
+				"ENABLE_SANITIZER_MEMORY": true
+			}
+		},
+		{
+			"name": "tidy",
+			"hidden": true,
+			"cacheVariables": {
+				"ENABLE_CLANG_TIDY": true
+			}
+		},
+		{
+			"name": "gcov",
+			"description": "whether to enable gcov based code coverage (use with gcc or clang in Debug)",
+			"hidden": true,
+			"cacheVariables": {
+				"ENABLE_GCOV": true
+			}
+		},
+		{
+			"name": "llvmprofile",
+			"description": "whether to enable llvm profile based code coverage (use with clang)",
+			"hidden": true,
+			"cacheVariables": {
+				"ENABLE_LLVMPROFILE": true
+			}
+		},
+		{
+			"name": "x64-msvc",
+			"inherits": "windows",
+			"hidden": true,
+			"cacheVariables": {
+				"CMAKE_C_COMPILER": "cl.exe",
+				"CMAKE_CXX_COMPILER": "cl.exe"
+			},
+			"architecture": {
+				"value": "x64",
+				"strategy": "external"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"intelliSenseMode": "windows-msvc-x64"
+				}
+			}
+		},
+		{
+			"name": "x64-clang-cl",
+			"inherits": "windows",
+			"hidden": true,
+			"cacheVariables": {
+				"CMAKE_C_COMPILER": "clang-cl.exe",
+				"CMAKE_CXX_COMPILER": "clang-cl.exe"
+			},
+			"architecture": {
+				"value": "x64",
+				"strategy": "external"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"intelliSenseMode": "windows-clang-x64"
+				}
+			}
+		},
+		{
+			"name": "clang",
+			"inherits": "unix-like",
+			"hidden": true,
+			"cacheVariables": {
+				"CMAKE_C_COMPILER": "clang-16",
+				"CMAKE_CXX_COMPILER": "clang++-16"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"intelliSenseMode": "windows-clang-x64"
+				}
+			}
+		},
+		{
+			"name": "gcc",
+			"inherits": "unix-like",
+			"hidden": true,
+			"cacheVariables": {
+				"CMAKE_C_COMPILER": "gcc-13",
+				"CMAKE_CXX_COMPILER": "g++-13"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"intelliSenseMode": "linux-gcc-x64"
+				}
+			}
+		},
+		{
+			"name": "x64-msvc-debug",
+			"displayName": "x64 MSVC Debug",
+			"inherits": [
+				"x64-msvc",
+				"debug"
+			]
+		},
+		{
+			"name": "x64-msvc-release",
+			"displayName": "x64 MSVC Release",
+			"inherits": [
+				"x64-msvc",
+				"release"
+			]
+		},
+		{
+			"name": "x64-clang-cl-debug",
+			"displayName": "x64 ClangCl Debug",
+			"inherits": [
+				"x64-clang-cl",
+				"debug"
+			]
+		},
+		{
+			"name": "x64-clang-cl-release",
+			"displayName": "x64 ClangCl Release",
+			"inherits": [
+				"x64-clang-cl",
+				"release"
+			]
+		},
+		{
+			"name": "x64-clang-cl-release-tidy",
+			"displayName": "x64 ClangCl Release Tidy",
+			"inherits": [
+				"x64-clang-cl-release",
+				"tidy"
+			]
+		},
+		{
+			"name": "clang-debug",
+			"displayName": "Clang Debug",
+			"inherits": [
+				"clang",
+				"debug"
+			]
+		},
+		{
+			"name": "clang-release",
+			"displayName": "Clang Release",
+			"inherits": [
+				"clang",
+				"release"
+			]
+		},
+		{
+			"name": "clang-release-tidy",
+			"displayName": "Clang Release Tidy",
+			"inherits": [
+				"clang-release",
+				"tidy"
+			]
+		},
+		{
+			"name": "gcc-debug",
+			"displayName": "Gcc Debug",
+			"inherits": [
+				"gcc",
+				"debug"
+			]
+		},
+		{
+			"name": "gcc-release",
+			"displayName": "Gcc Release",
+			"inherits": [
+				"gcc",
+				"release"
+			]
+		},
+		{
+			"name": "gcc-coverage",
+			"displayName": "(Gcc coverage)",
+			"inherits": [
+				"gcc-debug",
+				"gcov"
+			]
+		},
+		{
+			"name": "clang-coverage",
+			"displayName": "(Clang coverage)",
+			"inherits": [
+				"clang-debug",
+				"llvmprofile",
+				"gcov"
+			]
+		}
+	],
+	"buildPresets": [],
+	"testPresets": []
+}
