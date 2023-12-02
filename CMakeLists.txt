@@ -8,7 +8,7 @@ project ("adventofcode-2023"
 )
 
 # set global c++ standard to c++20
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 
 # log base compiler info
 if(CMAKE_CXX_COMPILER_LOADED)
