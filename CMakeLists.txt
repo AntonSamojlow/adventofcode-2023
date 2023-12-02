@@ -25,5 +25,5 @@ if(ENABLE_CLANG_TIDY)
   enable_clang_tidy_globally()
 endif()
 
-add_executable(main main.cpp)
+add_executable(main main.cpp src/day1.h src/day1.cpp)
 
